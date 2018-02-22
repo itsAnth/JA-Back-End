@@ -1,0 +1,28 @@
+{
+  "name": "ja_2",
+  "version": "1.0.0",
+  "description": "ja app for sur5ive",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Anthony McLeod",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.18.2",
+    "colors": "^1.1.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.2",
+    "express-validator": "^4.3.0",
+    "jsonwebtoken": "^8.1.1",
+    "lodash": "^4.17.4",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.12.5",
+    "path": "^0.12.7",
+    "request": "^2.83.0",
+    "twilio": "^3.10.1",
+    "validator": "^9.2.0"
+  }
+}

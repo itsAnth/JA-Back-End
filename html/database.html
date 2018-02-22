@@ -1,0 +1,80 @@
+<html>
+<head>
+  <title>SOSMS Documentation</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="/public/css/style.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <div style="margin:10px;">
+    <nav class="navbar navbar-inverse navbar-static-top">
+      <div class="container">
+        <a class="navbar-brand" href="../">SOSMS Documentation</a>
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="../">Routes</a>
+          </li>
+          <li class="active">
+            <a href="/">Database</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="jumbotron"  style="padding:40px;">
+      <h1>Database Structure</h1>
+      <p>This will outline the backend database structure.</p>
+
+
+      <!-- MODELS -->
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Models</h3>
+        </div>
+        <div class="well well-sm padding">
+          <samp>Users:</samp><br>
+          <samp style="margin-left:20px;">{</samp><br>
+          <samp style="margin-left:40px;">"EMAIL": string (40)</samp><br>
+          <samp style="margin-left:40px;">"FIRST_NAME": string (50)</samp><br>
+          <samp style="margin-left:40px;">"LAST_NAME": string (50)</samp><br>
+          <samp style="margin-left:40px;">"PHONE_NUMBER": integer</samp><br>
+          <samp style="margin-left:40px;">"PREFIX": string (4)</samp><br>
+          <samp style="margin-left:40px;">"USER_ID": integer</samp><br>
+          <samp style="margin-left:40px;">"MESSAGE": string (280)</samp><br>
+          <samp style="margin-left:40px;">"PASSWORD": string (200)</samp><br>
+          <samp style="margin-left:40px;">"TIMER": integer</samp><br>
+          <samp style="margin-left:40px;">"PIN": integer</samp><br>
+          <samp>}</samp>
+        </div>
+
+        <div class="well well-sm padding">
+          <samp>Contacts:</samp><br>
+          <samp style="margin-left:20px;">{</samp><br>
+          <samp style="margin-left:40px;">"CONTACT_ID": integer</samp><br>
+          <samp style="margin-left:40px;">"PHONE_NUMBER": integer</samp><br>
+          <samp style="margin-left:40px;">"PREFIX": string (4)</samp><br>
+          <samp style="margin-left:40px;">"FIRST_NAME": string (50)</samp><br>
+          <samp style="margin-left:40px;">"LAST_NAME": string (50)</samp><br>
+          <samp style="margin-left:40px;">"USER_ID": integer</samp><br>
+          <samp>}</samp>
+        </div>
+
+        <div class="well well-sm padding">
+          <samp>Logs:</samp><br>
+          <samp style="margin-left:20px;">{</samp><br>
+          <samp style="margin-left:40px;">"LOG_ID": integer</samp><br>
+          <samp style="margin-left:40px;">"DATE": timestamp</samp><br>
+          <samp style="margin-left:40px;">"USER_ID": integer</samp><br>
+          <samp>}</samp>
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+</body>
+</html>

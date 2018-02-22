@@ -1,0 +1,8 @@
+# Node build artifacts
+node_modules
+
+# Local development
+*.env
+
+# Notes
+*.txt
