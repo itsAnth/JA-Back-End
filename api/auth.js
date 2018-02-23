@@ -5,7 +5,7 @@ var config = require('../config/config');
 /*authentiction middleware*/
 exports.signToken = function(phoneNumber) {
 	return new Promise(function(resolve, reject) {
-		if(user.USER_ID === undefined) {
+		if(phoneNumber === undefined) {
 			reject(new Error('Phone number was not provided.'));
 		} else {
 			jwt.sign({ phoneNumber: phoneNumber }, config.secrets.jwt, function(err, token) {

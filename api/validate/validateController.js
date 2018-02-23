@@ -15,7 +15,7 @@ exports.params = function(req, res, next, phone_number) {
 
 exports.sendCode = function(req,res, next) {
 	try {
-		smsController.sendCode(req.phone_number)
+		smsController.sendCodeMessage(req.phone_number)
 		.then(function() {
 			var oRes = {
 				success: false,
@@ -34,6 +34,7 @@ exports.sendCode = function(req,res, next) {
 				res.type('json');
 				res.status(402).send(sResponse);
 			} else {
+				console.log(err);
 				var oRes = {
 					success: false,
 					payload: {error: "Something went wrong with your request." }
@@ -80,9 +81,27 @@ exports.validateCode = function(req, res, next) {
 		res.type('json');
 		res.status(403).send(sResponse); // validation error
 	} else {
-		auth.signToken(req.body.PHONE_NUMBER);
-		res.type('json');
-		res.status(200).send(sResponse);
+		auth.signToken(req.body.PHONE_NUMBER)
+		.then(function(token) {
+			var oRes = {
+				success: false,
+				token:token,
+				payload: {}
+			};
+			var sResponse = JSON.stringify(oRes);
+			res.type('json');
+			res.status(200).send(sResponse);
+		})
+		.catch(function(err) {
+			console.log(err);
+			var oRes = {
+				success: false,
+				payload: {error: "Something went wrong with your request." }
+			};
+			var sResponse = JSON.stringify(oRes);
+			res.type('json');
+			res.status(400).send(sResponse);
+		});
 	}
 };
 

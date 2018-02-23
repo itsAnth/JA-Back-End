@@ -21,7 +21,7 @@ exports.sendCodeMessage = function(phoneNumber) {
 		}
 		var message = "Thanks for downloading Sur5ive! Please enter this 4 digit code to verify your number: " + code;
 		client.messages.create({ 
-			to: user.PREFIX + user.PHONE_NUMBER, 
+			to: "+1" + phoneNumber, 
 			from: config.FROM_NUMBER, 
 			body: message, 
 		}, function(err, message) { 
