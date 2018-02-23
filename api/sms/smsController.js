@@ -9,10 +9,9 @@ var authToken = config.TWILIO_AUTH_TOKEN;
 var client = require('twilio')(accountSid, authToken); 
 
 /*** helper functions ***/
-exports.sendCodeMessage = function(user) {
+exports.sendCodeMessage = function(phoneNumber) {
 	return new Promise(function(resolve, reject) {
-		var code;
-		var intPhoneNumber = parseInt(user.PHONE_NUMBER);
+		var intPhoneNumber = parseInt(phoneNumber);
 		var tripInt = 3*intPhoneNumber + 1394;
 		var sCode = tripInt.toString();
 		if(sCode.length >= 4) {
@@ -27,7 +26,7 @@ exports.sendCodeMessage = function(user) {
 			body: message, 
 		}, function(err, message) { 
 			if(err) {
-				reject(new Error("Error sending message to the provided number."));
+				reject(401);
 			} else {
 				resolve();
 			}
@@ -130,7 +129,7 @@ exports.sendSMS = function(req, res, next) {
 	}
 	var user = req.body.user;
 	prepareMessages(contacts, user, location)
-	.then(addToLog.bind(null, user.CODE)
+	.then(addToLog.bind(null, user.CODE))
 	.then(function(arg) {
 		var contacts = arg;
 		var oRes = {
