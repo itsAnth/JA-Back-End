@@ -2,9 +2,9 @@ var router = require('express').Router();
 var path    = require("path");
 var logger = require('../util/logger');
 
-router.use('/contact', require('./contact/contactRoutes'));
 router.use('/sms', require('./sms/smsRoutes'));
-router.use('/user', require('./user/userRoutes'));
+router.use('/validate', require('./validate/validateRoutes'));
+
 router.route('/').get(function(req, res) {
 	res.sendFile(path.join(__dirname+'/../html/routes.html'));
 });

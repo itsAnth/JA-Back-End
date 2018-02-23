@@ -3,113 +3,37 @@ var logger = require('../../util/logger');
 var config = require('../../config/config');
 require('dotenv').config();
 
-var hanaURL = config.HANA_URL;
+var dbURL = config.DB_URL;
 var accountSid = config.TWILIO_SID; 
 var authToken = config.TWILIO_AUTH_TOKEN; 
 var client = require('twilio')(accountSid, authToken); 
 
 /*** helper functions ***/
-var findAllContactsByUserId = function(user_id) {
+exports.sendCodeMessage = function(user) {
 	return new Promise(function(resolve, reject) {
-		request({
-			headers: {
-				"Accept":"application/json"
-			},
-			url:hanaURL + '/contacts?$filter=USER_ID%20eq%20' + user_id
-		}, (err, httpResponse, body) => {
-			if (err) {
-				reject(new Error("Something went wrong in the contactController, findAllContactsByUserId."));
-			} else if (httpResponse.statusCode !== 200) {
-				httpResponse.body = JSON.parse(httpResponse.body);
-				if(httpResponse.body.hasOwnProperty("error")) {
-					reject(new Error(httpResponse.body.error.message));
-				} else {
-					reject(new Error("There was an error in contactController, findAllContactsByUserId."));
-				}
+		var code;
+		var intPhoneNumber = parseInt(user.PHONE_NUMBER);
+		var tripInt = 3*intPhoneNumber + 1394;
+		var sCode = tripInt.toString();
+		if(sCode.length >= 4) {
+			code = sCode.substring(sCode.length - 4);
+		} else {
+			code = "4923";
+		}
+		var message = "Thanks for downloading Sur5ive! Please enter this 4 digit code to verify your number: " + code;
+		client.messages.create({ 
+			to: user.PREFIX + user.PHONE_NUMBER, 
+			from: config.FROM_NUMBER, 
+			body: message, 
+		}, function(err, message) { 
+			if(err) {
+				reject(new Error("Error sending message to the provided number."));
 			} else {
-				body = JSON.parse(body);
-				body = body.d;
-				if(body.results.length === 0) {
-					reject(406);
-				} else {
-					for(var i = 0; i< body.results.length; i++) {
-						delete body.results[i].__metadata;
-					}
-					resolve(body.results);
-				}
-				
+				resolve();
 			}
 		});
 	});
 };
-
-var findMessageByUserId = function(user_id, contacts) {
-	return new Promise(function(resolve, reject) {
-		request({
-			headers: {
-				"Accept":"application/json"
-			},
-			url:hanaURL + '/users?$filter=USER_ID%20eq%20' + parseInt(user_id) + '&$select=FIRST_NAME,LAST_NAME,MESSAGE'
-		}, (err, httpResponse, body) => {
-			if (err) {
-				reject(new Error("Something went wrong in the smsController, findMessageByUserId."));
-			} else if (httpResponse.statusCode !== 200) {
-				httpResponse.body = JSON.parse(httpResponse.body);
-				if(httpResponse.body.hasOwnProperty("error")) {
-					reject(new Error(httpResponse.body.error.message));
-				} else {
-					reject(new Error("There was an error in smsController, findUserByUserId. User may not exist"));
-				}
-			} else {
-				body = JSON.parse(body);
-				if(body.d.results.length === 0) {
-					reject(new Error("User does not exist"));
-				} else {
-					body = body.d.results[0];
-					delete body.__metadata;
-					var oReturn = {};
-					oReturn.body = body;
-					oReturn.contacts = contacts;
-					resolve(oReturn);
-				}
-			}
-		}); 
-	});
-};
-
-var getLogByUserId = function(user_id) {
-	return new Promise(function(resolve, reject) {
-		request({
-			headers: {
-				"Accept":"application/json"
-			},
-			url:hanaURL + '/logs?$filter=USER_ID%20eq%20' + user_id + '&$select=DATE&$orderby=DATE%20desc&$top=15'
-		}, (err, httpResponse, body) => {
-			if (err) {
-				reject(new Error("Something went wrong in the smsController, getLogsByUserId."));
-			} else if (httpResponse.statusCode !== 200) {
-				httpResponse.body = JSON.parse(httpResponse.body);
-				if(httpResponse.body.hasOwnProperty("error")) {
-					reject(new Error(httpResponse.body.error.message));
-				} else {
-					reject(new Error("There was an error in smsController, getLogsByUserId."));
-				}
-			} else {
-				body = JSON.parse(body);
-				body = body.d;
-				if(body.results.length === 0) {
-					reject(405);
-				} else {
-					for(var i = 0; i< body.results.length; i++) {
-						delete body.results[i].__metadata;
-					}
-					resolve(body.results);
-				}
-			}
-		}); 
-	});
-};
-
 
 exports.sendNewUserMessage = function(user) {
 	console.log(user);
@@ -151,12 +75,10 @@ var sendMessage = function(contact, user, location) {
 	});
 };
 
-var prepareMessages = function(location, arg) {
-	var contacts = arg.contacts;
-	var body = arg.body;
+var prepareMessages = function(contacts, user, location) {
 	var promisesArray =[];
 	for (var j = 0; j < contacts.length; j++) {
-		promisesArray.push(sendMessage(contacts[j], body, location));
+		promisesArray.push(sendMessage(contacts[j], user, location));
 	}
 	return Promise.all(promisesArray)
 	.then(function(promisesArgs) {
@@ -164,9 +86,9 @@ var prepareMessages = function(location, arg) {
 	})
 };
 
-var addToLog = function(user_id, contacts) {
+var addToLog = function(code) {
 	var oBody = {};
-	oBody.USER_ID = user_id;
+	oBody.USER_ID = code;
 	oBody.LOG_ID = 1;
 	var sBody = JSON.stringify(oBody);
 	return new Promise(function(resolve, reject) {
@@ -176,7 +98,7 @@ var addToLog = function(user_id, contacts) {
 				"Accept":"application/json"
 			},
 			body: sBody,
-			url: hanaURL + '/logs'
+			url: dbURL + '/logs'
 		}, function(err, httpResponse, body) {
 			if(err || httpResponse.statusCode !== 201) {
 				var oResponse = {};
@@ -190,18 +112,9 @@ var addToLog = function(user_id, contacts) {
 	});
 };
 
-var isValidId = function(some_id) {
-	return new Promise(function(resolve, reject) {
-		if(isNaN(some_id) || !Number.isInteger(parseFloat(some_id))) {
-			reject(new Error("ID provided is not an integer"));
-		} else {
-			resolve(some_id);
-		}
-	});
-};
 
-exports.params = function(req, res, next, user_id) {
-	req.user_id = user_id;
+exports.params = function(req, res, next, phoneNumber) {
+	req.phoneNumber = phoneNumber;
 	next();
 };
 
@@ -211,11 +124,13 @@ exports.sendSMS = function(req, res, next) {
 	if (req.query.location !== undefined) {
 		location = req.query.location;
 	}
-	isValidId(req.user_id)
-	.then(findAllContactsByUserId)
-	.then(findMessageByUserId.bind(null, req.user_id))
-	.then(prepareMessages.bind(null, location))
-	.then(addToLog.bind(null, req.user_id))
+	var contacts = req.body.contacts;
+	if (contacts.length === 0) {
+		throw new Error(406)
+	}
+	var user = req.body.user;
+	prepareMessages(contacts, user, location)
+	.then(addToLog.bind(null, user.CODE)
 	.then(function(arg) {
 		var contacts = arg;
 		var oRes = {
@@ -243,44 +158,11 @@ exports.sendSMS = function(req, res, next) {
 		} else if (err === 406) {
 			var oRes = {
 				success: false,
-				payload: {error: "No contacts exist for user." }
+				payload: {error: "No contacts exist. Cannot send message." }
 			};
 			var sResponse = JSON.stringify(oRes);
 			res.type('json');
 			res.status(406).send(sResponse);
-		} else {
-			var oRes = {
-				success: false,
-				payload: {error: err.message }
-			};
-			var sResponse = JSON.stringify(oRes);
-			res.type('json');
-			res.status(400).send(sResponse);
-		}
-	});
-};
-
-exports.getLogs = function (req, res, next) {
-	getLogByUserId(req.user_id)
-	.then(function(arg) {
-		var oRes = {
-			success: true,
-			payload: {
-				results: arg
-			}
-		};
-		var sResponse = JSON.stringify(oRes);
-		res.type('json');
-		res.status(200).send(sResponse);
-	}).catch(function(err) {
-		if (err === 405) {
-			var oRes = {
-				success: false,
-				payload: {error: "No logs exist for user." }
-			};
-			var sResponse = JSON.stringify(oRes);
-			res.type('json');
-			res.status(405).send(sResponse);
 		} else {
 			var oRes = {
 				success: false,
