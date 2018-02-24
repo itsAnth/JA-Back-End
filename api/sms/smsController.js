@@ -163,6 +163,7 @@ exports.sendSMS = function(req, res, next) {
 			res.type('json');
 			res.status(406).send(sResponse);
 		} else {
+			console.log(err);
 			var oRes = {
 				success: false,
 				payload: {error: err.message }
