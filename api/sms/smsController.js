@@ -60,7 +60,7 @@ var sendMessage = function(contact, user, location) {
 	}
 	return new Promise(function(resolve, reject) {
 		client.messages.create({ 
-			to: contact.PREFIX + contact.PHONE_NUMBER, 
+			to: "+1" + contact.PHONE_NUMBER, 
 			from: config.FROM_NUMBER, 
 			body: message, 
 		}, function(err, message) { 
