@@ -123,14 +123,11 @@ exports.sendSMS = function(req, res, next) {
 	if (req.query.location !== undefined) {
 		location = req.query.location;
 	}
-	var contacts = req.body.contacts;
+	var contacts = req.body.CONTACTS;
 	if (contacts.length === 0) {
 		throw new Error(406)
 	}
-	var user = {};
-	user.FIRST_NAME = req.body.FIRST_NAME;
-	user.LAST_NAME = req.body.LAST_NAME;
-	user.PHONE_NUMBER = req.body.PHONE_NUMBER;
+	var user = req.body.USER
 	prepareMessages(contacts, user, location)
 	.then(addToLog.bind(null, user.CODE))
 	.then(function(arg) {
