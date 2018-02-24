@@ -85,9 +85,9 @@ var prepareMessages = function(contacts, user, location) {
 	})
 };
 
-var addToLog = function(code) {
+var addToLog = function(user_id, contacts) {
 	var oBody = {};
-	oBody.USER_ID = code;
+	oBody.USER_ID = contacts;
 	oBody.LOG_ID = 1;
 	var sBody = JSON.stringify(oBody);
 	return new Promise(function(resolve, reject) {
@@ -105,7 +105,7 @@ var addToLog = function(code) {
 				oResponse.contacts = contacts;
 				reject(new Error(oResponse));
 			} else {
-				resolve(contacts);
+				resolve();
 			}
 		});
 	});
@@ -129,7 +129,7 @@ exports.sendSMS = function(req, res, next) {
 	}
 	var user = req.body.USER
 	prepareMessages(contacts, user, location)
-	.then(addToLog.bind(null, user.CODE))
+	.then(addToLog.bind(null, user.PHONE_NUMBER.substring(user.PHONE_NUMBER.length - 4)))
 	.then(function(arg) {
 		var contacts = arg;
 		var oRes = {
