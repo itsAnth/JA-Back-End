@@ -25,6 +25,8 @@ exports.decodeToken = function(req, res, next) {
 	if (req.headers.authorization === undefined) {
 		next(new Error('No token on the header.'));
 	} else {
+		console.log("body is");
+		console.log(req.body);
 		if(req.phoneNumber = undefined) {
 			try {
 				req.phoneNumber = req.body.USER.PHONE_NUMBER;
@@ -38,6 +40,8 @@ exports.decodeToken = function(req, res, next) {
 			} else if (!decoded.hasOwnProperty('phoneNumber')) {
 				next(new Error('Corrupt token'));
 			} else if(req.phoneNumber !== decoded.phoneNumber) {
+				console.log("decoded number is");
+				console.log(decoded.phoneNumber);
 				next(new Error("This token is not valid."));
 			} else {
 				next();
