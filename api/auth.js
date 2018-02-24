@@ -39,7 +39,7 @@ exports.decodeToken = function(req, res, next) {
 				next(new Error(err));
 			} else if (!decoded.hasOwnProperty('phoneNumber')) {
 				next(new Error('Corrupt token'));
-			} else if(req.phoneNumber !== decoded.phoneNumber) {
+			} else if(req.phoneNumber !== decoded.phoneNumber.toString()) {
 				console.log("decoded number is");
 				console.log(decoded.phoneNumber);
 				next(new Error("This token is not valid."));
