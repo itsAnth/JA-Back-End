@@ -105,7 +105,7 @@ var addToLog = function(user_id, contacts) {
 				oResponse.contacts = contacts;
 				reject(new Error(oResponse));
 			} else {
-				resolve();
+				resolve(contacts);
 			}
 		});
 	});
@@ -163,7 +163,7 @@ exports.sendSMS = function(req, res, next) {
 			res.type('json');
 			res.status(406).send(sResponse);
 		} else {
-			console.log(err);
+			console.log(err.message);
 			var oRes = {
 				success: false,
 				payload: {error: err.message }
