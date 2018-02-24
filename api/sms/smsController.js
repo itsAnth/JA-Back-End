@@ -87,7 +87,7 @@ var prepareMessages = function(contacts, user, location) {
 
 var addToLog = function(user_id, contacts) {
 	var oBody = {};
-	oBody.USER_ID = contacts;
+	oBody.USER_ID = user_id;
 	oBody.LOG_ID = 1;
 	var sBody = JSON.stringify(oBody);
 	return new Promise(function(resolve, reject) {
