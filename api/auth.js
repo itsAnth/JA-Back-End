@@ -27,7 +27,8 @@ exports.decodeToken = function(req, res, next) {
 	} else {
 		console.log("body is");
 		console.log(req.body);
-		if(req.phoneNumber = undefined) {
+		if(req.phoneNumber == undefined) {
+			console.log("HERE")
 			try {
 				req.phoneNumber = req.body.USER.PHONE_NUMBER;
 			} catch(err) {
@@ -42,6 +43,8 @@ exports.decodeToken = function(req, res, next) {
 			} else if(req.phoneNumber !== decoded.phoneNumber.toString()) {
 				console.log("decoded number is");
 				console.log(decoded.phoneNumber);
+				console.log("req phone number is");
+				console.log(req.phoneNumber);
 				next(new Error("This token is not valid."));
 			} else {
 				next();
