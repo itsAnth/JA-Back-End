@@ -25,6 +25,13 @@ exports.decodeToken = function(req, res, next) {
 	if (req.headers.authorization === undefined) {
 		next(new Error('No token on the header.'));
 	} else {
+		if(req.phoneNumber = undefined) {
+			try {
+				req.phoneNumber = req.body.USER.PHONE_NUMBER;
+			} catch(err) {
+				reject(new Error("No req.phoneNumber"));
+			}
+		}
 		jwt.verify(req.headers.authorization, config.secrets.jwt, function(err, decoded) {
 			if(err) {
 				next(new Error(err));
