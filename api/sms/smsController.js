@@ -127,7 +127,10 @@ exports.sendSMS = function(req, res, next) {
 	if (contacts.length === 0) {
 		throw new Error(406)
 	}
-	var user = req.body.user;
+	var user = {};
+	user.FIRST_NAME = req.body.FIRST_NAME;
+	user.LAST_NAME = req.body.LAST_NAME;
+	user.PHONE_NUMBER = req.body.PHONE_NUMBER;
 	prepareMessages(contacts, user, location)
 	.then(addToLog.bind(null, user.CODE))
 	.then(function(arg) {
