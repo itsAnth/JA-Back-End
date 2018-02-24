@@ -51,7 +51,7 @@ exports.sendNewUserMessage = function(user) {
 };
 
 var sendMessage = function(contact, user, location) {
-	var message = "To " + contact.FIRST_NAME + " from " + user.FIRST_NAME + " " + user.LAST_NAME + ", " + user.MESSAGE;
+	var message = "To: " + contact.FIRST_NAME + " From: " + user.FIRST_NAME + " " + user.LAST_NAME + " Tel: " + user.PHONE_NUMBER + ", " + user.MESSAGE;
 	var messageEnding = "Sent by the sur5ive application. Please do not respond to this message.";
 	message = message + messageEnding;
 	if (location !== undefined) {
