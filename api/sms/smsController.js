@@ -55,7 +55,7 @@ var sendMessage = function(contact, user, location) {
 	var messageEnding = "Sent by the sur5ive application. Please do not respond to this message.";
 	message = message + messageEnding;
 	if (location !== undefined) {
-		var location = ". Current location: " + "https://www.google.com/maps/search/?api=1&query=" + location;
+		var location = user.FIRST_NAME + " approx. location: " + "https://www.google.com/maps/search/?api=1&query=" + location;
 		message = message + location;
 	}
 	return new Promise(function(resolve, reject) {
@@ -129,7 +129,7 @@ exports.sendSMS = function(req, res, next) {
 	}
 	var user = req.body.USER
 	prepareMessages(contacts, user, location)
-	.then(addToLog.bind(null, user.PHONE_NUMBER.substring(user.PHONE_NUMBER.length - 4)))
+	.then(addToLog.bind(null, 1))
 	.then(function(arg) {
 		var contacts = arg;
 		var oRes = {
