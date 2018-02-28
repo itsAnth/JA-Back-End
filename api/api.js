@@ -5,7 +5,7 @@ var logger = require('../util/logger');
 router.use('/sms', require('./sms/smsRoutes'));
 router.use('/validate', require('./validate/validateRoutes'));
 
-router.use('/online').get(function(req, res,) {
+router.route('/online').get(function(req, res) {
 	var oRes = {
 		success: true,
 		status: "online"
