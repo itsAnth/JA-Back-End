@@ -16,9 +16,6 @@
           <li class="active">
             <a href="/">Routes</a>
           </li>
-          <li>
-            <a href="/database">Database</a>
-          </li>
         </ul>
       </div>
     </nav>
@@ -26,28 +23,17 @@
       <h1>API Routes</h1>
       <p>This guide will outline the routes for the api, which is used for the SOSMS app.</p>
       
-      <!-- USER -->
-      <h3>user</h3>
+      <!-- VALIDATE -->
+      <h3>validate</h3>
+
       <!-- GET METHOD -->
-      <!-- GETS THE USER'S DATA -->
+      <!-- SEND VALIDATE CODE -->
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">GET</span>/user/find/{user_id}</h3>
+          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">GET</span>/validate/code/&lt;phone number&gt;</h3>
         </div>
         <div class="table-responsive">
           <table class="table">
-            <tr>
-              <th><span class="label label-primary">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>user_id</td>
-              <td>The user id that needs to be fetched. Use 3001 for testing.</td>
-            </tr>
             <tr>
               <th><span class="label label-primary">Headers</span></th>
               <th></th>
@@ -57,8 +43,8 @@
               <th>Description</th>
             </tr>
             <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
+              <td>Accept: application/json</td>
+              <td></td>
             </tr>
             <tr>
               <th><span class="label label-primary">Response</span></th>
@@ -70,7 +56,7 @@
             </tr>
             <tr>
               <td>200</td>
-              <td>Success.</td>
+              <td>Success. The app sent a validation code to the given phone number.</td>
             </tr>
             <tr>
               <td class="testing">example</td>
@@ -78,17 +64,7 @@
                 <div class="well well-sm">
                   <samp>{</samp><br>
                   <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"EMAIL":"john.smith@email.com",</samp><br>
-                  <samp style="margin-left:40px;">"FIRST_NAME":"John",</samp><br>
-                  <samp style="margin-left:40px;">"LAST_NAME":"Smith",</samp><br>
-                  <samp style="margin-left:40px;">"PHONE_NUMBER":"12345678",</samp><br>
-                  <samp style="margin-left:40px;">"PREFIX":"+1",</samp><br>
-                  <samp style="margin-left:40px;">"USER_ID":3001,</samp><br>
-                  <samp style="margin-left:40px;">"MESSAGE":"Hey, give me a call."</samp><br>
-                  <samp style="margin-left:40px;">"TIMER":3,</samp><br>
-                  <samp style="margin-left:40px;">"PIN":4312,</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
+                  <samp style="margin-left:20px;">"payload": {}</samp><br>
                   <samp>}</samp>
                 </div>
               </td>
@@ -96,114 +72,28 @@
             <tr>
               <td>400</td>
               <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- POST METHOD -->
-      <!-- CREATES NEW USER -->
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">POST</span>/user/signup</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-success">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>body</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"EMAIL":"john.smith@email.com",</samp><br>
-                  <samp style="margin-left:20px;">"FIRST_NAME":"John",</samp><br>
-                  <samp style="margin-left:20px;">"LAST_NAME":"Smith",</samp><br>
-                  <samp style="margin-left:20px;">"PHONE_NUMBER":"12345678",</samp><br>
-                  <!-- <samp style="margin-left:20px;">"PREFIX":"+1",</samp><br> -->
-                  <samp style="margin-left:20px;">"PASSWORD":"password",</samp><br>
-                  <!-- <samp style="margin-left:20px;">"PASSWORD2":"password",</samp><br> -->
-                  <samp style="margin-left:20px;">"TIMER":4312,</samp><br>
-                  <!-- <samp style="margin-left:20px;">"MESSAGE":"Hey, give me a call.",</samp><br> -->
-                  <samp style="margin-left:20px;">"PIN":1234</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th><span class="label label-success">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"token":"eyJhbGciOiJIUzI1NiIsInR5",</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"EMAIL":"john.smith@email.com",</samp><br>
-                  <samp style="margin-left:40px;">"FIRST_NAME":"John",</samp><br>
-                  <samp style="margin-left:40px;">"LAST_NAME":"Smith",</samp><br>
-                  <samp style="margin-left:40px;">"PHONE_NUMBER":"12345678",</samp><br>
-                  <samp style="margin-left:40px;">"PREFIX":"+1",</samp><br>
-                  <samp style="margin-left:40px;">"USER_ID":3001,</samp><br>
-                  <samp style="margin-left:40px;">"MESSAGE":"Hey, give me a call."</samp><br>
-                  <samp style="margin-left:40px;">"TIMER":5,</samp><br>
-                  <samp style="margin-left:40px;">"PIN":4312,</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
             </tr>
             <tr>
               <td>402</td>
-              <td>Uninque Constrain Violated.</td>
-            </tr>
-            <tr>
-              <td>403</td>
-              <td>Validation Error.</td>
+              <td>Could not send message to number</td>
             </tr>
           </table>
         </div>
       </div>
 
+
+
+
       <!-- POST METHOD -->
-      <!-- LOGIN USER -->
+      <!-- CHECK VALIDATE CODE -->
       <div class="panel panel-success">
         <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">POST</span>/user/login</h3>
+          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">POST</span>/validate/validatecode</h3>
         </div>
         <div class="table-responsive">
           <table class="table">
             <tr>
-              <th><span class="label label-success">Parameters</span></th>
+              <th><span class="label label-success">Headers</span></th>
               <th></th>
             </tr>
             <tr>
@@ -211,12 +101,24 @@
               <th>Description</th>
             </tr>
             <tr>
-              <td>body</td>
+              <td>Content-Type: application/json</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>Accept: application/json</td>
+              <td></td>
+            </tr>
+            <tr>
+              <th><span class="label label-success">Body</span></th>
+              <th></th>
+            </tr>
+            <tr>
+              <td>Body</td>
               <td>
                 <div class="well well-sm">
                   <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"EMAIL":"john.smith@email.com",</samp><br>
-                  <samp style="margin-left:20px;">"PASSWORD":"password",</samp><br>
+                  <samp style="margin-left:20px;">"PHONE_NUMBER":"12345678",</samp><br>
+                  <samp style="margin-left:20px;">"CODE":"4567"</samp><br>
                   <samp>}</samp>
                 </div>
               </td>
@@ -237,125 +139,17 @@
               <td>example</td>
               <td>
                 <div class="well well-sm">
-                  <samp>{</samp><br>
+                  <samp>{</samp><br>                  
                   <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"token":"eyJhbGciOiJIUzI1NiIsInR5",</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"USER_ID":3001,</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
+                  <samp style="margin-left:20px;">"token": 1234567876543256787654,</samp><br>
+                  <samp style="margin-left:20px;">"payload": {}</samp><br>
                   <samp>}</samp>
                 </div>
               </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-            <tr>
-              <td>404</td>
-              <td>Incorrect login credentials.</td>
-            </tr>
-            <tr>
-              <td>405</td>
-              <td>User does not exist.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- PUT METHOD -->
-      <!-- EDIT USER'S DATA -->
-      <div class="panel panel-warning">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">PUT</span>/user/update/{user_id}</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-warning">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>user_id</td>
-              <td>The user id that needs to be updated. Use 1 for testing.</td>
-            </tr>
-            <tr>
-              <td>body</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"FIRST_NAME":"Johnathan",</samp><br>
-                  <samp style="margin-left:20px;">"LAST_NAME":"Smith",</samp><br>
-                  <samp style="margin-left:20px;">"PHONE_NUMBER":"056636382",</samp><br>
-                  <samp style="margin-left:20px;">"PREFIX":"+2"</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th><span class="label label-warning">Headers</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-warning">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"EMAIL":"john.smith@email.com",</samp><br>
-                  <samp style="margin-left:40px;">"FIRST_NAME":"Johnathan",</samp><br>
-                  <samp style="margin-left:40px;">"LAST_NAME":"Smith",</samp><br>
-                  <samp style="margin-left:40px;">"PHONE_NUMBER":"056636382",</samp><br>
-                  <samp style="margin-left:40px;">"PREFIX":"+2"</samp><br>
-                  <samp style="margin-left:40px;">"USER_ID":3001,</samp><br>
-                  <samp style="margin-left:40px;">"MESSAGE":"Hey, give me a call."</samp><br>
-                  <samp style="margin-left:40px;">"TIMER":3,</samp><br>
-                  <samp style="margin-left:40px;">"PIN":4312,</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
             </tr>
             <tr>
               <td>403</td>
-              <td>Validation Error.</td>
+              <td>Incorrect token.</td>
             </tr>
           </table>
         </div>
@@ -366,14 +160,14 @@
       <h3>sms</h3>
       <!-- GET METHOD -->
       <!-- SEND SMS -->
-      <div class="panel panel-primary">
+      <div class="panel panel-success">
         <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">GET</span>/sms/send/{user_id}?location=longlat</h3>
+          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">POST</span>/sms/send?location=latitude,longitude</h3>
         </div>
         <div class="table-responsive">
           <table class="table">
             <tr>
-              <th><span class="label label-primary">Parameters</span></th>
+              <th><span class="label label-success">Parameters</span></th>
               <th></th>
             </tr>
             <tr>
@@ -381,15 +175,11 @@
               <th>Description</th>
             </tr>
             <tr>
-              <td>user_id</td>
-              <td>The user id that needs an sosms.</td>
-            </tr>
-            <tr>
               <td>location (optional value)</td>
-              <td>The location of user.</td>
+              <td>The location of user. Latitude coordinate followed by a comma and then the longitude coordinate.</td>
             </tr>
             <tr>
-              <th><span class="label label-primary">Headers</span></th>
+              <th><span class="label label-success">Headers</span></th>
               <th></th>
             </tr>
             <tr>
@@ -398,10 +188,36 @@
             </tr>
             <tr>
               <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
+              <td>Pass a token in the header. Tokens are generated on setup.</td>
             </tr>
             <tr>
-              <th><span class="label label-primary">Response</span></th>
+              <th><span class="label label-success">Body</span></th>
+              <th></th>
+            </tr>
+            <tr>
+              <td>Body</td>
+              <td>
+                <div class="well well-sm">
+                  <samp>{</samp><br>
+                  <samp style="margin-left:20px;">"USER":{</samp><br>
+                  <samp style="margin-left:40px;">"FIRST_NAME":"Bruce",</samp><br>
+                  <samp style="margin-left:40px;">"LAST_NAME":"Wayne",</samp><br>
+                  <samp style="margin-left:40px;">"PHONE_NUMBER":"12345678",</samp><br>
+                  <samp style="margin-left:40px;">"Message":"Hello World"</samp><br>
+                  <samp style="margin-left:20px;">"},"</samp><br>
+                  <samp style="margin-left:20px;">"CONTACTS":[</samp><br>
+                  <samp style="margin-left:40px;">{</samp><br>
+                  <samp style="margin-left:60px;">"FIRST_NAME":"Bruce",</samp><br>
+                  <samp style="margin-left:60px;">"LAST_NAME":"Wayne",</samp><br>
+                  <samp style="margin-left:60px;">"PHONE_NUMBER":"12345678"</samp><br>
+                  <samp style="margin-left:40px;">}</samp><br>
+                  <samp style="margin-left:20px;">]</samp><br>
+                  <samp>}</samp>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th><span class="label label-success">Response</span></th>
               <th></th>
             </tr>
             <tr>
@@ -419,454 +235,21 @@
                   <samp>{</samp><br>                  
                   <samp style="margin-left:20px;">"success":true,</samp><br>
                   <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"results": [</samp><br>
-                  <samp style="margin-left:60px;">{</samp><br>
-                  <samp style="margin-left:80px;">"CONTACT_ID": 7001,</samp><br>
-                  <samp style="margin-left:80px;">"PHONE_NUMBER":"45612890",</samp><br>
-                  <samp style="margin-left:80px;">"PREFIX":"+1"</samp><br>
-                  <samp style="margin-left:80px;">"FIRST_NAME":"Bruce",</samp><br>
-                  <samp style="margin-left:80px;">"LAST_NAME":"Wayne",</samp><br>
-                  <samp style="margin-left:80px;">"USER_ID":3001</samp><br>
-                  <samp style="margin-left:60px;">}</samp><br>
-                  <samp style="margin-left:40px;">]</samp><br>
+                  <samp style="margin-left:20px;">"results": [</samp><br>
+                  <samp style="margin-left:40px;">{</samp><br>
+                  <samp style="margin-left:60px;">"FIRST_NAME":"Bruce",</samp><br>
+                  <samp style="margin-left:60px;">"LAST_NAME":"Wayne",</samp><br>
+                  <samp style="margin-left:60px;">"PHONE_NUMBER":"12345678"</samp><br>
+                  <samp style="margin-left:40px;">}</samp><br>
+                  <samp style="margin-left:20px;">]</samp><br>
                   <samp style="margin-left:20px;">}</samp><br>
                   <samp>}</samp>
                 </div>
               </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
             </tr>
             <tr>
               <td>406</td>
-              <td>No contacts exist.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- GET METHOD -->
-      <!-- GET SMS LOG -->
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">GET</span>/sms/logs/{user_id}</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-primary">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>user_id</td>
-              <td>The user id that needs the logs.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-primary">Headers</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-primary">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"results": [</samp><br>
-                  <samp style="margin-left:60px;">{</samp><br>
-                  <samp style="margin-left:80px;">"LOG_ID":1005,</samp><br>
-                  <samp style="margin-left:80px;">"DATE":"/Date(123434543453)/",</samp><br>
-                  <samp style="margin-left:80px;">"USER_ID":3001</samp><br>
-                  <samp style="margin-left:60px;">}</samp><br>
-                  <samp style="margin-left:40px;">]</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
-                  <samp>}</samp>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-            <tr>
-              <td>405</td>
-              <td>Logs do not exist.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-
-      <!-- CONTACT -->
-      <h3>contact</h3>
-      <!-- GET METHOD -->
-      <!-- SEND SMS -->
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">GET</span>/contact/all/{user_id}</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-primary">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>user_id</td>
-              <td>Contacts for the given user id.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-primary">Headers</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-primary">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"results": [</samp><br>
-                  <samp style="margin-left:60px;">{</samp><br>
-                  <samp style="margin-left:80px;">"CONTACT_ID": 7001,</samp><br>
-                  <samp style="margin-left:80px;">"PHONE_NUMBER":"45612890",</samp><br>
-                  <samp style="margin-left:80px;">"PREFIX":"+1"</samp><br>
-                  <samp style="margin-left:80px;">"FIRST_NAME":"Bruce",</samp><br>
-                  <samp style="margin-left:80px;">"LAST_NAME":"Wayne",</samp><br>
-                  <samp style="margin-left:80px;">"USER_ID":3001</samp><br>
-                  <samp style="margin-left:60px;">}</samp><br>
-                  <samp style="margin-left:40px;">]</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
-
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-            <tr>
-              <td>406</td>
-              <td>No contacts exist.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- POST METHOD -->
-      <!-- CREATES NEW CONTACT -->
-      <div class="panel panel-success">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">POST</span>/contact/new</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-success">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>body</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"PHONE_NUMBER":"45612890",</samp><br>
-                  <samp style="margin-left:20px;">"PREFIX":"+1",</samp><br>
-                  <samp style="margin-left:20px;">"FIRST_NAME":"Bruce",</samp><br>
-                  <samp style="margin-left:20px;">"LAST_NAME":"Wayne",</samp><br>
-                  <samp style="margin-left:20px;">"USER_ID":3001</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th><span class="label label-success">Headers</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-success">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"CONTACT_ID": 7001,</samp><br>
-                  <samp style="margin-left:40px;">"PHONE_NUMBER":"45612890",</samp><br>
-                  <samp style="margin-left:40px;">"PREFIX":"+1"</samp><br>
-                  <samp style="margin-left:40px;">"FIRST_NAME":"Bruce",</samp><br>
-                  <samp style="margin-left:40px;">"LAST_NAME":"Wayne",</samp><br>
-                  <samp style="margin-left:40px;">"USER_ID":3001</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-            <tr>
-              <td>403</td>
-              <td>Validation Error.</td>
-            </tr>
-            <tr>
-              <td>408</td>
-              <td>Exceeded max number of contacts.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- PUT METHOD -->
-      <!-- EDIT CONTACT'S DATA -->
-      <div class="panel panel-warning">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">PUT</span>/contact/update/{contact_id}</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-warning">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>contact_id</td>
-              <td>The contact id that needs to be updated. Use 3 for testing.</td>
-            </tr>
-            <tr>
-              <td>body</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"FIRST_NAME":"Bruce",</samp><br>
-                  <samp style="margin-left:20px;">"LAST_NAME":"Banner",</samp><br>
-                  <samp style="margin-left:20px;">"PHONE_NUMBER":"45612890",</samp><br>
-                  <samp style="margin-left:20px;">"PREFIX":"+1"</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <th><span class="label label-warning">Headers</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-warning">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {</samp><br>
-                  <samp style="margin-left:40px;">"CONTACT_ID":3,</samp><br>
-                  <samp style="margin-left:40px;">"PHONE_NUMBER":"45612890",</samp><br>
-                  <samp style="margin-left:40px;">"PREFIX":"+1",</samp><br>
-                  <samp style="margin-left:40px;">"USER_ID":1,</samp><br>
-                  <samp style="margin-left:40px;">"FIRST_NAME":"Bruce",</samp><br>
-                  <samp style="margin-left:40px;">"LAST_NAME":"Banner",</samp><br>
-                  <samp style="margin-left:20px;">}</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-            <tr>
-              <td>403</td>
-              <td>Validation Error.</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-
-      <!-- DELETE METHOD -->
-      <!-- DELETE CONTACT DATA -->
-      <div class="panel panel-danger">
-        <div class="panel-heading">
-          <h3 class="panel-title"><span class="label label-default" style="margin-right:20px;">DELETE</span>/contact/delete/{contact_id}</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <tr>
-              <th><span class="label label-danger">Parameters</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>contact_id</td>
-              <td>The contact id that needs to be deleted.</td>
-            </tr>
-            </tr>
-            <tr>
-              <th><span class="label label-danger">Headers</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>Authorization: token</td>
-              <td>Pass a token in the header. Tokens are generated on signup and login.</td>
-            </tr>
-            <tr>
-              <th><span class="label label-danger">Response</span></th>
-              <th></th>
-            </tr>
-            <tr>
-              <th>Code</th>
-              <th>Description</th>
-            </tr>
-            <tr>
-              <td>200</td>
-              <td>Success.</td>
-            </tr>
-            <tr>
-              <td>example</td>
-              <td>
-                <div class="well well-sm">
-                  <samp>{</samp><br>
-                  <samp style="margin-left:20px;">"success":true,</samp><br>
-                  <samp style="margin-left:20px;">"payload": {}</samp><br>
-                  <samp>}</samp>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>400</td>
-              <td>Bad request.</td>
-            </tr>
-            <tr>
-              <td>401</td>
-              <td>Invalid path.</td>
-            </tr>
-            <tr>
-              <td>406</td>
-              <td>No contact exist.</td>
+              <td>No contacts in request.</td>
             </tr>
           </table>
         </div>

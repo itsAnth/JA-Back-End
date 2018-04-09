@@ -3,7 +3,6 @@ var logger = require('../../util/logger');
 var config = require('../../config/config');
 require('dotenv').config();
 
-var dbURL = config.DB_URL;
 var accountSid = config.TWILIO_SID; 
 var authToken = config.TWILIO_AUTH_TOKEN; 
 var client = require('twilio')(accountSid, authToken); 
@@ -85,37 +84,10 @@ var prepareMessages = function(contacts, user, location) {
 	})
 };
 
-var addToLog = function(user_id, contacts) {
-	var oBody = {};
-	oBody.USER_ID = user_id;
-	oBody.LOG_ID = 1;
-	var sBody = JSON.stringify(oBody);
-	return new Promise(function(resolve, reject) {
-		request.post({
-			headers: {
-				"Content-Type":"application/json",
-				"Accept":"application/json"
-			},
-			body: sBody,
-			url: dbURL + '/logs'
-		}, function(err, httpResponse, body) {
-			if(err || httpResponse.statusCode !== 201) {
-				var oResponse = {};
-				oResponse.logError = "log error";
-				oResponse.contacts = contacts;
-				reject(new Error(oResponse));
-			} else {
-				resolve(contacts);
-			}
-		});
-	});
-};
-
-
-exports.params = function(req, res, next, phoneNumber) {
+/*exports.params = function(req, res, next, phoneNumber) {
 	req.phoneNumber = phoneNumber;
 	next();
-};
+};*/
 
 /*** functions for routes ***/
 exports.sendSMS = function(req, res, next) {
@@ -129,7 +101,6 @@ exports.sendSMS = function(req, res, next) {
 	}
 	var user = req.body.USER
 	prepareMessages(contacts, user, location)
-	.then(addToLog.bind(null, 1))
 	.then(function(arg) {
 		var contacts = arg;
 		var oRes = {

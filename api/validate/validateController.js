@@ -18,7 +18,7 @@ exports.sendCode = function(req,res, next) {
 		smsController.sendCodeMessage(req.phone_number)
 		.then(function() {
 			var oRes = {
-				success: false,
+				success: true,
 				payload: {}
 			};
 			var sResponse = JSON.stringify(oRes);
@@ -84,7 +84,7 @@ exports.validateCode = function(req, res, next) {
 		auth.signToken(req.body.PHONE_NUMBER)
 		.then(function(token) {
 			var oRes = {
-				success: false,
+				success: true,
 				token:token,
 				payload: {}
 			};
